@@ -10,7 +10,7 @@ interface TwitterApi {
 
     function deleteTweet(uint256 tweetId) external;
 
-    function getTweets(uint256 lastId) external view returns (Tweet[] memory);
+    function getTweets(int256 lastId) external view returns (Tweet[] memory);
 
     function retweet(uint256 tweetId) external;
 
@@ -85,7 +85,7 @@ contract TwitterApiImpl is TwitterApi {
         tweets[tweetId].deleted = true;
     }
 
-    function getTweets(uint256 lastId)
+    function getTweets(int256 lastId)
         external
         view
         override
@@ -94,14 +94,14 @@ contract TwitterApiImpl is TwitterApi {
         if (tweets.length == 0) {
             return new Tweet[](0);
         }
-        if (lastId == 0 || lastId > tweets.length) {
-            lastId = tweets.length - 1;
+        if (lastId < 0 || lastId > int(tweets.length)) {
+            lastId = int(tweets.length) - 1;
         }
         uint256 found;
         Tweet[] memory toReturn = new Tweet[](pageSize);
         while (found < pageSize) {
-            if (!tweets[lastId].deleted) {
-                toReturn[found++] = tweets[lastId];
+            if (!tweets[uint(lastId)].deleted) {
+                toReturn[found++] = tweets[uint(lastId)];
             }
             if (lastId == 0) break;
             lastId--;
