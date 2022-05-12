@@ -31,12 +31,12 @@ struct Tweet {
 }
 
 contract TwitterApiImpl is TwitterApi {
-    Tweet[] tweets;
-    uint256 tweetIdSeq;
-    uint256 pageSize = 10;
+    Tweet[] private tweets;
+    uint256 private tweetIdSeq;
+    uint256 private pageSize = 10;
 
-    mapping(uint256 => mapping(address => uint256)) retweetsIndex;
-    mapping(uint256 => mapping(address => uint256)) likesIndex;
+    mapping(uint256 => mapping(address => uint256)) private retweetsIndex;
+    mapping(uint256 => mapping(address => uint256)) private likesIndex;
 
     function addTweet(string calldata text)
         external
@@ -64,7 +64,7 @@ contract TwitterApiImpl is TwitterApi {
     modifier tweetExists(uint256 tweetId) {
         require(
             tweets[tweetId].deleted == false,
-            "The Tweet you are trying to access does not exist!"
+            "Tweet doesn't exist"
         );
         _;
     }

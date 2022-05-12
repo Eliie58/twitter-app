@@ -10,4 +10,4 @@ To initialise project locally:
 Run npx hardhat compile
 
 # Deploy
-Run npx hardhat run —-network <network> script/path
+Run npx hardhat run --network \<network\> script/path
