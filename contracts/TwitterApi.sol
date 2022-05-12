@@ -69,10 +69,19 @@ contract TwitterApiImpl is TwitterApi {
         _;
     }
 
+    modifier isOwner(uint256 tweetId) {
+        require(
+            tweets[tweetId].owner == msg.sender,
+            "Only owner can take action"
+        );
+        _;
+    }
+
     function updateTweet(uint256 tweetId, string calldata text)
         external
         override
         tweetExists(tweetId)
+        isOwner(tweetId)
     {
         tweets[tweetId].text = text;
     }
@@ -81,6 +90,7 @@ contract TwitterApiImpl is TwitterApi {
         external
         override
         tweetExists(tweetId)
+        isOwner(tweetId)
     {
         tweets[tweetId].deleted = true;
     }
