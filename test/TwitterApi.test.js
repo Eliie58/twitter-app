@@ -47,6 +47,37 @@ describe("TwitterApi contract", () => {
     expect(tweets[0].deleted).to.equal(false);
   });
 
+  it("should create a tweet and update by owner and not update by antoher user", async () => {
+    const tweetText = "First tweet";
+    const tweetTextNew1 = "New tweet text 1";
+    const tweetTextNew2 = "New tweet text 2";
+
+    const addresses = await ethers.getSigners();
+    const addr1 = addresses[0];
+    const addr2 = addresses[1];
+
+    await twitterApi.connect(addr1).addTweet(tweetText);
+
+    await twitterApi.connect(addr1).updateTweet(0, tweetTextNew1);
+    console.log("test1");
+
+    await twitterApi
+      .connect(addr2)
+      .updateTweet(0, tweetTextNew2)
+      .should.be.revertedWith("Only owner can take action");
+
+    console.log("test2");
+    const tweets = await twitterApi.connect(addr1).getTweets(-1);
+
+    expect(tweets[0].text).to.equal(tweetTextNew1);
+    expect(tweets[0].deleted).to.equal(false);
+
+    const tweetsNotUpdated = await twitterApi.connect(addr1).getTweets(-1);
+
+    expect(tweetsNotUpdated[0].text).to.equal(tweetTextNew1);
+    expect(tweetsNotUpdated[0].deleted).to.equal(false);
+  });
+
   it("should create many tweets", async () => {
     const numberOfTweets = 3;
     const tweetTextsExpected = getDefaultTweetsList(numberOfTweets);
