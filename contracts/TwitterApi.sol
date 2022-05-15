@@ -140,7 +140,7 @@ contract TwitterApiImpl is TwitterApi {
 
     function like(uint256 tweetId) external override tweetExists(tweetId) {
         uint256 likeIndex = likesIndex[tweetId][msg.sender];
-        // likeIndex is 0 if the tweet is not likeed already.
+        // likeIndex is 0 if the tweet is not liked already.
         // We will like it
         address[] storage likes = tweets[tweetId].likes;
         if (likeIndex == 0) {
