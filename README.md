@@ -11,3 +11,12 @@ Run npx hardhat compile
 
 # Deploy
 Run npx hardhat run --network \<network\> script/path
+
+# Testing
+Run npx hardhat test
+
+# Coverage
+Run npx hardhat coverage
+
+# Generate Docs
+Run npx hardhat docgen

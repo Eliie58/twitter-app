@@ -20,4 +20,10 @@ module.exports = {
       globals: { task: true },
     },
   ],
+  "prettier/prettier": [
+    error,
+    {
+      endOfLine: "auto",
+    },
+  ],
 };

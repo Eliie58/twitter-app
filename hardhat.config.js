@@ -6,6 +6,7 @@ require("dotenv").config();
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-waffle");
 require("solidity-coverage");
+require("solidity-docgen");
 
 const { API_URL_ROPSTEN, API_URL_RINKEBY, PRIVATE_KEY } = process.env;
 
